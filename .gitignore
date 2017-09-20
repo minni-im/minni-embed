@@ -1,0 +1,16 @@
+node_modules
+npm-debug.log
+yarn-error.log
+.DS_Store
+.idea
+*._
+*.sw[opqr]
+*.swap
+.*.swp
+*humbs.db
+*.key
+*.pem
+*.crt
+*.csr
+ehthumbs.db
+Thumbs.db

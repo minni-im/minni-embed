@@ -1,0 +1,40 @@
+{
+  "name": "@minni-im/minni-embed",
+  "version": "1.0.0",
+  "description": "Minni.im embed foundation. Used to create your owm embed plugins",
+  "main": "lib/",
+  "scripts": {
+    "test": "jest",
+    "build": "rimraf lib && babel src -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bcharbonnier@github.com/minni-im/minni-embed.git"
+  },
+  "keywords": [
+    "minni",
+    "chat",
+    "embed",
+    "plugin",
+    "oembed"
+  ],
+  "author": "Benoit Charbonnier <benoit.charbonnier@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minni-im/minni-embed/issues"
+  },
+  "homepage": "https://github.com/minni-im/minni-embed#readme",
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-eslint": "8.0.0",
+    "babel-jest": "21.0.2",
+    "babel-preset-node8": "1.2.0",
+    "eslint": "4.7.1",
+    "jest": "21.1.0",
+    "rimraf": "2.6.2",
+    "simple-markdown": "0.3.1"
+  },
+  "dependencies": {
+    "node-fetch": "1.7.3"
+  }
+}
