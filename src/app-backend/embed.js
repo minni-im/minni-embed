@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 
 export default class Embed {
   endpointUrl() {
-    throw new Error("You must implement a endPointUrl method");
+    throw new Error("You must implement a endpointUrl method");
   }
 
   parse(capture) {
