@@ -11,7 +11,7 @@ let rules = {
   newline: SimpleMarkdown.defaultRules.newline,
   text: SimpleMarkdown.defaultRules.text,
 };
-let parser = SimpleMarkdown.parserFor(rules);
+let parser;
 
 function normalizeName(text) {
   return text.toLowerCase();
@@ -34,7 +34,9 @@ export function register(embed) {
 }
 
 export function parse(text) {
-  return parser(text, { inline: true }).filter(p => p.type !== "text");
+  return parser
+    ? parser(text, { inline: true }).filter(p => p.type !== "text")
+    : [];
 }
 
 export function process(text) {
