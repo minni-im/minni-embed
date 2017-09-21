@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 export default class Embed {
-  endPointUrl() {
+  endpointUrl() {
     throw new Error("You must implement a endPointUrl method");
   }
 
@@ -21,7 +21,7 @@ export default class Embed {
 
   exec(element, options) {
     return new Promise(resolve => {
-      fetch(this.endPointUrl(element), {})
+      fetch(this.endpointUrl(element), {})
         .then(res => {
           if (res.status !== 200) {
             return resolve(false);

@@ -51,8 +51,8 @@ export default {
     );
   },
 
-  toHaveEndPointUrlMethod(received) {
-    return toHaveProperMethod(received, "endPointUrl");
+  toHaveEndpointUrlMethod(received) {
+    return toHaveProperMethod(received, "endpointUrl");
   },
 
   toHaveMatchMethod(received) {
