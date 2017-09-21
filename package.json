@@ -15,7 +15,7 @@
   },
   "keywords": ["minni", "chat", "embed", "plugin", "oembed"],
   "author": "Benoit Charbonnier <benoit.charbonnier@gmail.com>",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/minni-im/minni-embed/issues"
   },
