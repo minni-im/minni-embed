@@ -11,7 +11,7 @@ let rules = {
   newline: SimpleMarkdown.defaultRules.newline,
   text: SimpleMarkdown.defaultRules.text,
 };
-let parser;
+let parser = SimpleMarkdown.parserFor(rules);
 
 function normalizeName(text) {
   return text.toLowerCase();
