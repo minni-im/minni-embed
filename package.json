@@ -1,8 +1,7 @@
 {
   "name": "@minni-im/minni-embed",
-  "version": "1.0.0",
-  "description":
-    "Minni.im embed foundation. Used to create your owm embed plugins",
+  "version": "1.0.1",
+  "description": "Minni.im embed foundation. Used to create your owm embed plugins",
   "main": "lib/",
   "browser": "src/app-frontend/",
   "scripts": {
@@ -13,7 +12,13 @@
     "type": "git",
     "url": "git+https://bcharbonnier@github.com/minni-im/minni-embed.git"
   },
-  "keywords": ["minni", "chat", "embed", "plugin", "oembed"],
+  "keywords": [
+    "minni",
+    "chat",
+    "embed",
+    "plugin",
+    "oembed"
+  ],
   "author": "Benoit Charbonnier <benoit.charbonnier@gmail.com>",
   "license": "Apache-2.0",
   "bugs": {
