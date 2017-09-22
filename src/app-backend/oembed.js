@@ -1,6 +1,64 @@
 import Embed from "./embed";
 
 export default class OEmbed extends Embed {
+  endpointUrl() {
+    throw new Error("You must implement an endpointUrl() {} method");
+  }
+
+  exec(element, meta) {
+    return new Promise(resolve => {
+      fetch(this.endpointUrl(element), {
+        headers: {
+          "User-Agent": "Minni.im oEmbed Web Service",
+        },
+      })
+        .then(res => {
+          if (!res.ok || res.status !== 200) {
+            throw new Error(
+              `[${this.name}] unable to process request: \n${res}`
+            );
+          }
+          return res.json();
+        })
+        .then(data => this.process(data, element))
+        .then(embed => {
+          // original matching url
+          embed.url = element.url;
+
+          // embed provider if not provided
+          if (!embed.provider) {
+            embed.provider = {
+              name: this.name,
+            };
+          }
+
+          if (!embed.type && this.type) {
+            embed.type = this.type;
+          }
+          resolve(embed);
+        })
+        .catch(error => {
+          console.error(`[${this.name}] ${error}`);
+          resolve(false);
+        });
+    });
+  }
+
+  process(data, element) {
+    return {
+      type: this.type,
+      ...this.extractTitle(data, element),
+      ...this.extractHtml(data, element),
+      ...this.extractDescription(data, element),
+      ...this.extractThumbnail(data, element),
+      ...this.extractProvider(data, element),
+      ...this.extractAuthor(data, element),
+      ...this.extractWidth(data, element),
+      ...this.extractHeight(data, element),
+      ...this.extractMeta(data, element),
+    };
+  }
+
   extractTitle(data) {
     return { title: data.title };
   }
@@ -56,20 +114,5 @@ export default class OEmbed extends Embed {
 
   extractMeta(data, element) {
     return {};
-  }
-
-  process(data, element) {
-    return {
-      type: this.type,
-      ...this.extractTitle(data, element),
-      ...this.extractHtml(data, element),
-      ...this.extractDescription(data, element),
-      ...this.extractThumbnail(data, element),
-      ...this.extractProvider(data, element),
-      ...this.extractAuthor(data, element),
-      ...this.extractWidth(data, element),
-      ...this.extractHeight(data, element),
-      ...this.extractMeta(data, element),
-    };
   }
 }

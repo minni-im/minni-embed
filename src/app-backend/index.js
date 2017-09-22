@@ -39,14 +39,20 @@ export function parse(text) {
     : [];
 }
 
-export function process(text) {
+export function process(text, meta = {}) {
   const tree = parse(text);
   return Promise.all(
     tree.map(element => {
       const processor = EMBEDS.find(
         e => normalizeName(e.name) === element.type
       );
-      return processor.exec(element);
+      return processor.exec(element, meta);
     })
-  ).then(results => results.filter(result => result !== false));
+  ).then(
+    results => results.filter(result => result !== false),
+    error => {
+      console.error(`[Embeds] processing error: \n${error}`);
+      return [];
+    }
+  );
 }

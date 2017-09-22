@@ -1,65 +1,56 @@
-import Embed from "../embed";
+export const VALID_NAME = /^[\w\S-]+$/;
+export const VALID_TYPE = /^[a-z0-9.]+$/;
 
-function wrapExpectReturn(pass, messageTrue, messageFalse) {
-  return pass
-    ? { message: () => messageTrue, pass: true }
-    : { message: () => messageFalse, pass: false };
+function toHaveProperMethod(instance, methodName, exception) {
+  if (
+    instance[methodName] ===
+    Object.getPrototypeOf(instance.constructor).prototype[methodName]
+  ) {
+    return {
+      message: `Expected embed class '${instance.constructor
+        .name}' must implement ${methodName[0].match(/[aeiou]/)
+        ? "an"
+        : "a"} '${methodName}()' method`,
+      pass: false,
+    };
+  } else {
+    try {
+      instance[methodName]();
+    } catch (ex) {
+      if (ex.message === exception) {
+        return {
+          message: `Expected embed method '${instance.constructor
+            .name}.${methodName}()' should be implemented`,
+          pass: false,
+        };
+      }
+    }
+  }
+  return { pass: true };
 }
 
-function toHaveProperMethod(object, methodName) {
-  const method = object[methodName];
-  return wrapExpectReturn(
-    method &&
-      typeof method === "function" &&
-      method !== Embed.prototype[methodName] &&
-      method.toString() !== Embed.prototype[methodName].toString(),
-    `Embed '${object.constructor
-      .name}' is not expected to override 'Embed.${methodName}()' method`,
-    `Embed '${object.constructor
-      .name}' is expected to override 'Embed.${methodName}()' method (with a different implementation)`
+export function toHaveMatch(received) {
+  return toHaveProperMethod(
+    received,
+    "match",
+    "You must implement a match(capture) {} method"
   );
 }
 
-export default {
-  toHaveValidName(received) {
-    return wrapExpectReturn(
-      received.name &&
-        typeof received.name === "string" &&
-        received.name.length > 0 &&
-        received.name.match(/^[\w-]+$/) !== null,
-      `Expected '${received.constructor.name}'` +
-        " to have a non empty 'name' property that contains letters and/or - characters\n" +
-        `Received: ${received.name}`,
-      `Expected '${received.constructor.name}'` +
-        " to have an empty 'name' property\n" +
-        `Received: ${received.name}`
+export function toHaveEndpointUrl(received) {
+  const parentName = Object.getPrototypeOf(received.constructor).name;
+  if (parentName !== "OEmbed") {
+    return {
+      message: `Expected embed class '${received.constructor
+        .name}' must extend OEmbed \nReceived: '${parentName}' class instead`,
+      pass: false,
+    };
+  } else {
+    return toHaveProperMethod(
+      received,
+      "endpointUrl",
+      "You must implement an endpointUrl() {} method"
     );
-  },
-
-  toHaveValidType(received) {
-    return wrapExpectReturn(
-      received.type &&
-        typeof received.type === "string" &&
-        received.type.length > 0 &&
-        received.type.match(/^[\w.]+$/) !== null,
-      `Expected '${received.constructor.name}'` +
-        " to have an non empty 'type' property that contains letters and/or . characters\n" +
-        `Received: ${received.type}`,
-      `Expected '${received.constructor.name}'` +
-        " to have an empty 'type' property\n" +
-        `Received: ${received.type}`
-    );
-  },
-
-  toHaveEndpointUrlMethod(received) {
-    return toHaveProperMethod(received, "endpointUrl");
-  },
-
-  toHaveMatchMethod(received) {
-    return toHaveProperMethod(received, "match");
-  },
-
-  toHaveProcessMethod(received) {
-    return toHaveProperMethod(received, "process");
-  },
-};
+  }
+  return { pass: true };
+}

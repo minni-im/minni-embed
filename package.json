@@ -6,7 +6,7 @@
   "browser": "src/app-frontend/",
   "scripts": {
     "test": "jest",
-    "build": "rimraf lib && babel src/app-backend -d lib"
+    "build": "rimraf lib && babel src/app-backend -d lib --ignore test.js,__tests__"
   },
   "repository": {
     "type": "git",
