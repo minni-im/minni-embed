@@ -29,7 +29,7 @@ function toHaveProperMethod(instance, methodName, exception) {
   return { pass: true };
 }
 
-export function toHaveMatch(received) {
+export function toHaveMatchMethod(received) {
   return toHaveProperMethod(
     received,
     "match",
@@ -37,7 +37,15 @@ export function toHaveMatch(received) {
   );
 }
 
-export function toHaveEndpointUrl(received) {
+export function toHaveProcessMethod(received) {
+  return toHaveProperMethod(
+    received,
+    "process",
+    "You must implement a process(data) {} method"
+  );
+}
+
+export function toHaveEndpointUrlMethod(received) {
   const parentName = Object.getPrototypeOf(received.constructor).name;
   if (parentName !== "OEmbed") {
     return {

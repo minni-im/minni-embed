@@ -1,3 +1,4 @@
+import fetch from "node-fetch";
 import Embed from "./embed";
 
 export default class OEmbed extends Embed {
