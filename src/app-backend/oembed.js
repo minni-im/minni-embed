@@ -6,14 +6,15 @@ export default class OEmbed extends Embed {
     throw new Error("You must implement an endpointUrl() {} method");
   }
 
-  exec(element, meta) {
-    return new Promise(resolve => {
+  exec(element, headers = {}) {
+    return new Promise((resolve) => {
       fetch(this.endpointUrl(element), {
         headers: {
           "User-Agent": "Minni.im oEmbed Web Service",
+          ...headers,
         },
       })
-        .then(res => {
+        .then((res) => {
           if (!res.ok || res.status !== 200) {
             throw new Error(
               `[${this.name}] unable to process request: \n${res}`
@@ -21,8 +22,8 @@ export default class OEmbed extends Embed {
           }
           return res.json();
         })
-        .then(data => this.process(data, element))
-        .then(embed => {
+        .then((data) => this.process(data, element))
+        .then((embed) => {
           // original matching url
           embed.url = element.url;
 
@@ -38,7 +39,7 @@ export default class OEmbed extends Embed {
           }
           resolve(embed);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(`[${this.name}] ${error}`);
           resolve(false);
         });
